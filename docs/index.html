@@ -244,6 +244,7 @@
       var UUID = uuid.v4();
       var COUNT_UPLOAD_SUCCESS = 0;
       var BOARD = [];
+      var COUNT_SAVE = 0;
 
       $(document).ready(function () {
 
@@ -262,6 +263,11 @@
                   webStorage: false
               });
           }
+
+          var countSave = firebase.database().ref('count_save');
+          countSave.on('value', function (snapshot) {
+            COUNT_SAVE = snapshot.val();
+          });
       });
 
       function onBtnSaveClicked() {
@@ -300,6 +306,9 @@
                       COUNT_UPLOAD_SUCCESS = 0;
                       $('#modal_loading').modal('close');
                       $('#modal_completed').modal('open');
+
+                      var database = firebase.database();
+                      database.ref('count_save').set(COUNT_SAVE + 1);
                   }
               });
           }
