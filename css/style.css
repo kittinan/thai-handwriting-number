@@ -1,5 +1,13 @@
 .board {
-    width: 300px;
-    height: 300px;
-
+    width: 302px;
+    height: 335px;
+    margin: 0 auto;
+}
+#number_container > div {
+    text-align: center;
+    margin-bottom: 25px;
+}
+#number_container .title {
+    font-weight: bold;
+    font-size: 18px;
 }

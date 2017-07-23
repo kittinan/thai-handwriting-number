@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Starter Template - Materialize</title>
+    <title>thai-handwriting-number: สร้าง Dataset ลายมือตัวเลขไทย</title>
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -15,24 +15,85 @@
   </head>
   <body>
     <nav class="light-blue lighten-1" role="navigation">
-      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">thai-handwriting-number</a>
         <ul class="right hide-on-med-and-down">
-          <li><a href="#">Navbar Link</a></li>
+          <li>
+            <a href="https://github.com/kittinan/thai-handwriting-number">
+              <img src="https://github.com/kittinan/kittinan.github.io/raw/master/img/GitHub-Mark-32px.png" style="padding-top: 16px;" />
+            </a>
+          </li>
         </ul>
-
-        <ul id="nav-mobile" class="side-nav">
-          <li><a href="#">Navbar Link</a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
       </div>
     </nav>
     <div class="container">
+
       <br><br>
 
-      <div id="board" class="board"></div>
-      
-      
-      <div id="btn-save" class="btn">click</div>
+      <div class="row">
+        จุดประสงค์เพื่อต้องการสร้าง Dataset สำหรับลายมือตัวเลขไทย เพื่อนำไปใช้ในการศึกษา <br />
+        ข้อมูลทั้งหมดจะถูก Public ผ่านทาง  Github
+        <a href="https://github.com/kittinan/thai-handwriting-number" target="_BLANK">thai-handwriting-number</a>
+      </div>
+
+      <div id="number_container" class="row ">
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 1 ไทย (๑)</div>
+          <div id="board_1" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 2 ไทย (๒)</div>
+          <div id="board_2" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 3 ไทย (๓)</div>
+          <div id="board_3" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 4 ไทย (๔)</div>
+          <div id="board_4" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 5 ไทย (๕)</div>
+          <div id="board_5" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 6 ไทย (๖)</div>
+          <div id="board_6" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 7 ไทย (๗)</div>
+          <div id="board_7" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 8 ไทย (๘)</div>
+          <div id="board_8" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 9 ไทย (๙)</div>
+          <div id="board_9" class="board"></div>
+        </div>
+
+        <div class="col s12 l6">
+          <div class="title">กรุณาเขียนเลข 0 ไทย (๐)</div>
+          <div id="board_10" class="board"></div>
+        </div>
+
+      </div>
+
+
+
+      <div class="row" style="text-align: center;">
+        <div id="btn-save" class="btn">บันทึก</div>
+      </div>
     </div>
 
 
@@ -63,50 +124,190 @@
       </div>
       <div class="footer-copyright">
         <div class="container">
-          Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+          <div class="left">
+            Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+          </div>
+          <div class="right">
+            <a href="https://github.com/kittinan/thai-handwriting-number" target="_BLANK">
+              <img src="https://github.com/kittinan/kittinan.github.io/raw/master/img/GitHub-Mark-32px.png" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
+
+    <!-- Modal Structure -->
+    <div id="modal_confirm" class="modal">
+      <div class="modal-content">
+        <h4>คุณแน่ใจที่จะบันทึก?</h4>
+        <p>
+          คุณแน่ใจที่จะบันทึก?
+          <br /><br />
+          ขอบคุณสำหรับการเสียเวลาของคุณในการร่วมสร้าง Dataset  thai-handwriting-number
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" id="btn-confirm-save" class="modal-action modal-close waves-effect waves-green btn-flat teal white-text">บันทึก</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">ยกเลิก</a>
+      </div>
+    </div>
+
+    <div id="modal_loading" class="modal" style="width: 300px;">
+      <div class="modal-content" style="text-align: center;">
+        <h4>Uploading</h4>
+        <div class="preloader-wrapper big active">
+          <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span id="uploading-number">0</span> / 10
+        </div>
+      </div>
+    </div>
+
+    <div id="modal_completed" class="modal">
+      <div class="modal-content">
+        <h4>บันทึกสำเร็จ</h4>
+        <p>
+          บันทึกสำเร็จแล้ว
+          <br /><br />
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">ปิด</a>
+      </div>
+    </div>
 
 
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.6/drawingboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.8/uuid.min.js"></script>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+          apiKey: "AIzaSyDeWs9Jkx5SFpWqqaBDHefCK5QbxjYBUzo",
+          authDomain: "thai-handwriting-number.firebaseapp.com",
+          databaseURL: "https://thai-handwriting-number.firebaseio.com",
+          projectId: "thai-handwriting-number",
+          storageBucket: "thai-handwriting-number.appspot.com",
+          messagingSenderId: "738697102156"
+      };
+      firebase.initializeApp(config);
+    </script>
 
     <script>
-      
-      var BOARD;
-      
+
+      var UUID = uuid.v4();
+      var COUNT_UPLOAD_SUCCESS = 0;
+      var BOARD = [];
+
       $(document).ready(function () {
-        
-        $('#btn-save').click(onBtnSaveClicked);
-        
-          console.log('xx');
 
-          BOARD = new DrawingBoard.Board('board', {
-              size: 20,
-              controls: [
-                  {Size: {type: "range"}},
-                  {Navigation: {back: false, forward: false}},
-                  {DrawingMode: {filler: false, eraser: false, pencile: false }}
-              ],
-              webStorage: false
-          });
+          $('#btn-save').click(onBtnSaveClicked);
+          $('#btn-confirm-save').click(onSaveData);
 
+          for (var i = 0; i < 10; i++) {
+
+              var id = 'board_' + (i + 1);
+              BOARD[i] = new DrawingBoard.Board(id, {
+                  size: 16,
+                  controls: [
+                      {Navigation: {reset: true, back: false, forward: false}},
+                      {DrawingMode: {filler: false, eraser: false, pencil: false}},
+                  ],
+                  webStorage: false
+              });
+          }
       });
-      
+
       function onBtnSaveClicked() {
-        
-        var img = BOARD.getImg();
-        console.log(img);
-        
+          $('#modal_confirm').modal('open');
+      }
+
+      function onSaveData() {
+
+          for (var i = 0; i < BOARD.length; i++) {
+              var img = BOARD[i].getImg();
+
+              var number = i + 1;
+
+
+
+              img = img.replace('data:image/png;base64,', '');
+              uploadTask = firebase.storage().ref('' + number).child(UUID + '.png').putString(img, 'base64', {contentType: 'image/png'});
+              uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+                      function (snapshot) {
+                          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                          switch (snapshot.state) {
+                              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                                  break;
+                              case firebase.storage.TaskState.RUNNING: // or 'running'
+                                  break;
+                          }
+                      }, function (error) {
+              }, function () {
+                  // Upload completed successfully, now we can get the download URL
+                  COUNT_UPLOAD_SUCCESS++;
+                  $('#uploading-number').html(number);
+                  var downloadURL = uploadTask.snapshot.downloadURL;
+
+                  if (COUNT_UPLOAD_SUCCESS >= 10) {
+                      COUNT_UPLOAD_SUCCESS = 0;
+                      $('#modal_loading').modal('close');
+                      $('#modal_completed').modal('open');
+                  }
+              });
+          }
+
+          $('#modal_loading').modal('open');
       }
 
 
     </script>
-
-
-
   </body>
 </html>
