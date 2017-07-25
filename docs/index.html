@@ -42,6 +42,13 @@
         ข้อมูลทั้งหมดจะถูก Public ผ่านทาง  Github
         <a href="https://github.com/kittinan/thai-handwriting-number" target="_BLANK">Thai-Handwriting-Number</a>
       </div>
+      
+      <div class="row">
+        <div class="input-field col s12 l6">
+          <input placeholder="อายุ" id="age" type="text" />
+          <label for="first_name">อายุของท่าน</label>
+        </div>
+      </div>
 
       <div id="number_container" class="row ">
 
@@ -283,16 +290,19 @@
       }
 
       function onSaveData() {
+        
+          var age = $('#age').val();
 
           for (var i = 0; i < BOARD.length; i++) {
               var img = BOARD[i].getImg();
 
               var number = i + 1;
-
-
+              
+              var file_name = UUID + '.png';
+              var file_name = age.length > 0 ? age + '_' + file_name : file_name;
 
               img = img.replace('data:image/png;base64,', '');
-              uploadTask = firebase.storage().ref('' + number).child(UUID + '.png').putString(img, 'base64', {contentType: 'image/png'});
+              uploadTask = firebase.storage().ref('' + number).child(file_name).putString(img, 'base64', {contentType: 'image/png'});
               uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
                       function (snapshot) {
                           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
