@@ -1,2 +1,2 @@
 #!/bin/bash
-gsutil -m cp -R gs://thai-handwriting-number.appspot.com/ .
+gsutil rsync -d -r gs://thai-handwriting-number.appspot.com/ ./thai-handwriting-number.appspot.com/
