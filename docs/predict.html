@@ -1,0 +1,113 @@
+<html>
+  <head>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.6/drawingboard.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <script src="js/keras.js"></script>
+    <script src="js/numjs.min.js"></script>
+
+
+  </head>
+  <body>
+
+    <div id="number_container" class="row ">
+
+      <div class="col s12 l6">
+        <div class="title"></div>
+        <div id="board_1" class="board"></div>
+        <br /><br />
+        <button id="btn_predict" class="btn">Predict</button>
+      </div>
+      
+      <div class="col s12 l6" style="text-align: left;">
+        <div id="loading">Loading Model ...</div>
+        <div>ผลการทำนาย</div>
+        <h2 id="result_prediction"></h2>
+      </div>
+    </div>
+    
+    <img id="temp_image" />
+    
+    <canvas id="grayscale" width="50" height="50"></canvas>
+    
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.6/drawingboard.min.js"></script>
+
+    <script>
+
+    var BOARD;
+
+      const model = new KerasJS.Model({
+          filepaths: {
+              model: 'model/model.json',
+              weights: 'model/model_weights.buf',
+              metadata: 'model/model_metadata.json'
+          },
+          gpu: true
+      })
+
+      $(document).ready(function () {
+          $('#btn_predict').click(onBtnPredictClicked);
+
+
+          BOARD = new DrawingBoard.Board('board_1', {
+              size: 16,
+              controls: [
+                  {Navigation: {reset: true, back: true, forward: false}},
+                  {DrawingMode: {filler: false, eraser: false, pencil: false}},
+              ],
+              webStorage: false
+          });
+
+          model.ready()
+                  .then(() => {
+                    $('#loading').html('Load Model Success');
+                  })
+                  .catch(err => {
+                      console.log(err);
+                      // handle error
+                  })
+
+      });
+
+      function onBtnPredictClicked() {
+         //var img = BOARD.getImg();
+         
+         var img = nj.images.read(document.querySelector('.drawing-board-canvas'));
+         var gray = nj.images.rgb2gray(img);
+         var resized = nj.images.resize(gray, 28, 28)
+         var data = resized.subtract(1).divide(255).flatten().selection.data;
+         data = new Float32Array(data);
+         //nj.images.save(resized, document.getElementById('grayscale'));
+         
+          const inputData = {
+              input: data
+          }
+          const outputData = model.predict(inputData).then(outputData => {
+            var output = outputData.output;
+            $('#result_prediction').html(findMax(output));
+          });
+      }
+      
+      function findMax(classes) {
+        
+        var idx = 0;
+        var max = classes[0];
+        for (var i = 1; i < classes.length; i++) {
+          if (classes[i] > max) {
+            max = classes[i];
+            idx = i;
+          }
+        }
+        return idx;
+      }
+    </script>
+
+  </body>
+</html>
