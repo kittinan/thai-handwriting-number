@@ -54,6 +54,7 @@
           <div id="loading">Loading Model ...</div>
           <div>ผลการทำนาย</div>
           <h1 id="result_prediction"></h1>
+          <div id="result_info"></div>
         </div>
       </div>
     </div>
@@ -72,6 +73,7 @@
     <script>
 
     var BOARD;
+    var useGPU = !isMobile();
 
       const model = new KerasJS.Model({
           filepaths: {
@@ -79,7 +81,7 @@
               weights: 'model/model_weights.buf',
               metadata: 'model/model_metadata.json'
           },
-          gpu: true
+          gpu: useGPU
       })
 
       $(document).ready(function () {
@@ -122,6 +124,18 @@
           const outputData = model.predict(inputData).then(outputData => {
             var output = outputData.output;
             $('#result_prediction').html(findMax(output));
+            
+            
+            var html = '<table class="table striped"><thead><tr><th>Number</th><th>Prob</th></tr><tbody>';
+            for (var i = 0; i < output.length; i++) {
+              var percent = (output[i] * 100).toFixed(2);
+              html += '<tr>';
+              html += '<td>' + i + '</td>';
+              html += '<td>' + percent + '</td>';
+              html += '</tr>';
+            }
+            html += '</tbody></table>';
+            $('#result_info').html(html);
           });
       }
       
@@ -136,6 +150,14 @@
           }
         }
         return idx;
+      }
+      
+      function isMobile() {
+        if(window.innerWidth <= 800 && window.innerHeight <= 600) {
+          return true;
+        } else {
+          return false;
+        }
       }
     </script>
 
