@@ -1,5 +1,18 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+    <title>Thai-Handwriting-Number: สร้าง Dataset ลายมือตัวเลขไทย</title>
+
+    <meta name="description" content="จุดประสงค์เพื่อต้องการสร้าง Dataset สำหรับลายมือตัวเลขไทย เพื่อนำไปใช้ในการศึกษา" >
+
+    <meta property="og:title" content="Thai-Handwriting-Number: สร้าง Dataset ลายมือตัวเลขไทย"/>
+    <meta property="og:description" content="จุดประสงค์เพื่อต้องการสร้าง Dataset สำหรับลายมือตัวเลขไทย เพื่อนำไปใช้ในการศึกษา" >
+    <meta property="og:image" content="https://kittinan.github.io/thai-handwriting-number/img/og_img.jpg"/>
+    <meta property="og:url" content="https://kittinan.github.io/thai-handwriting-number/"/>
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -13,22 +26,39 @@
 
   </head>
   <body>
-
-    <div id="number_container" class="row ">
-
-      <div class="col s12 l6">
-        <div class="title"></div>
-        <div id="board_1" class="board"></div>
-        <br /><br />
-        <button id="btn_predict" class="btn">Predict</button>
+    
+    <nav class="light-blue lighten-1" role="navigation">
+      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Thai-Handwriting-Number</a>
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a href="https://github.com/kittinan/thai-handwriting-number">
+              <img src="https://github.com/kittinan/kittinan.github.io/raw/master/img/GitHub-Mark-32px.png" style="padding-top: 16px;" />
+            </a>
+          </li>
+        </ul>
       </div>
-      
-      <div class="col s12 l6" style="text-align: left;">
-        <div id="loading">Loading Model ...</div>
-        <div>ผลการทำนาย</div>
-        <h2 id="result_prediction"></h2>
+    </nav>
+    
+    <div class="container">
+      <br /> <br />
+      <div id="number_container" class="row ">
+
+        <div class="col s12 l6">
+          <div class="title"></div>
+          <div id="board_1" class="board"></div>
+          <br /><br />
+          <button id="btn_predict" class="btn">Predict</button>
+        </div>
+
+        <div class="col s12 l6">
+          <div id="loading">Loading Model ...</div>
+          <div>ผลการทำนาย</div>
+          <h1 id="result_prediction"></h1>
+        </div>
       </div>
     </div>
+
+    
     
     <img id="temp_image" />
     
