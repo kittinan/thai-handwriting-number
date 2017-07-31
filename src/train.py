@@ -61,7 +61,7 @@ epochs = 150
 batch_size = 128
 tbCallBack = keras.callbacks.TensorBoard(log_dir='./thai', histogram_freq=0, write_graph=True, write_images=True)
 
-#model.load_weights('trained.h5')
+model.load_weights('model.hdf5')
 
 model.fit(train_X, train_y,
           batch_size=batch_size,
