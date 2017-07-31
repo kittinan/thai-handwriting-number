@@ -26,5 +26,8 @@ python clean_data.py
 python train.py
 ```
 
-### License
+## Contributing
+Feel free to contribute on this project, I will be happy to work with you.
+
+## License
 MIT
