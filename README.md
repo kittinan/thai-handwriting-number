@@ -29,5 +29,8 @@ python train.py
 ## Contributing
 Feel free to contribute on this project, I will be happy to work with you.
 
+## Thank you
+[Thailand Deep Learning Facebook Group](https://www.facebook.com/groups/988867541235062/)
+
 ## License
 MIT
