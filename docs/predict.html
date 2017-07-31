@@ -28,7 +28,18 @@
   <body>
     
     <nav class="light-blue lighten-1" role="navigation">
-      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Thai-Handwriting-Number</a>
+      <div class="nav-wrapper container">
+
+        <ul class="left">
+          <li>
+            <a href="/">Thai-Handwriting-Number</a>
+          </li>
+          <li>
+            <a href="/predict.html">
+              ทำนาย
+            </a>
+          </li>
+        </ul>
         <ul class="right hide-on-med-and-down">
           <li>
             <a href="https://github.com/kittinan/thai-handwriting-number">
@@ -41,13 +52,17 @@
     
     <div class="container">
       <br /> <br />
+      <div class="row" style="text-align: center;">
+        ทำนายบน Web Browser โดย
+        <a href="https://github.com/transcranial/keras-js" target="_BLANK">Keras-js</a>
+      </div>
       <div id="number_container" class="row ">
 
         <div class="col s12 l6">
           <div class="title"></div>
           <div id="board_1" class="board"></div>
           <br /><br />
-          <button id="btn_predict" class="btn">Predict</button>
+          <button id="btn_predict" class="btn" style="display: none;">Predict</button>
         </div>
 
         <div class="col s12 l6">
@@ -100,6 +115,7 @@
           model.ready()
                   .then(() => {
                     $('#loading').html('Load Model Success');
+                    $('#btn_predict').show();
                   })
                   .catch(err => {
                       console.log(err);
@@ -126,7 +142,7 @@
             $('#result_prediction').html(findMax(output));
             
             
-            var html = '<table class="table striped"><thead><tr><th>Number</th><th>Prob</th></tr><tbody>';
+            var html = '<table class="table striped"><thead><tr><th>Number</th><th>Probability (%)</th></tr><tbody>';
             for (var i = 0; i < output.length; i++) {
               var percent = (output[i] * 100).toFixed(2);
               html += '<tr>';
