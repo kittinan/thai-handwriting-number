@@ -1,6 +1,8 @@
 # thai-handwriting-number
 Thai handwriting number dataset
 
+![thai-handwriteing-number](https://raw.githubusercontent.com/kittinan/thai-handwriting-number/master/docs/img/thai-handwriting-number.png)
+
 
 ### Help us to create dataset
 https://kittinan.github.io/thai-handwriting-number/
