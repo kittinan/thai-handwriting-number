@@ -2,37 +2,14 @@ import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
-from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
-from PIL import Image, ImageOps
-import numpy as np
-import os
-import glob
 from sklearn.model_selection import train_test_split
 import random
+import thainumber
 
-def load_dataset():
-    data_dir = "../data/clean/"
-    X = []
-    Y = []
-    for folder in os.listdir(data_dir):
-        if os.path.isdir(data_dir + folder) == True:
-            label = folder
-            for file in glob.glob(data_dir + folder + "/*.png"):
-                #print(file)
-                img = load_img(file, grayscale=True, target_size=(28, 28))
-                img = ImageOps.invert(img)
-                img = img.convert(mode="1")
-                x = img_to_array(img)
-                x = x.reshape((28, 28, 1))
-
-                X.append(x)
-                Y.append(label)
-
-    return np.asarray(X), np.asarray(Y)
+X,Y = thainumber.load_dataset()
+X /= 255
 
 random_state = random.randint(1, 1024)
-
-X,Y = load_dataset()
 train_X, test_X, train_y, test_y = train_test_split(X, Y, train_size=0.7, random_state=random_state)
 
 num_classes = 10
@@ -57,9 +34,9 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=keras.optimizers.Adadelta(),
               metrics=['accuracy'])
 
-epochs = 150
+epochs = 50
 batch_size = 128
-tbCallBack = keras.callbacks.TensorBoard(log_dir='./thai', histogram_freq=0, write_graph=True, write_images=True)
+tbCallBack = keras.callbacks.TensorBoard(log_dir='./tensorboard', histogram_freq=0, write_graph=True, write_images=True)
 
 model.load_weights('model.hdf5')
 

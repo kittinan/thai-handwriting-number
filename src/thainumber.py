@@ -62,6 +62,12 @@ def load_dataset(size = 28):
     Y = data['Y']
     return X, Y
 
+def prepare_input(file):
+	img = load_img(file, grayscale=True, target_size=(28, 28))
+	img = ImageOps.invert(img)
+	x = img_to_array(img)
+	return x
+
 def img_cloud_dataset(size = 28):
     X, Y = load_dataset(size)
     x = 0
