@@ -27,6 +27,7 @@ def clean_data():
         '67ce79dc-de9c-4956-ad7b-fabf7aa9c6fa',
         '729207eb-f3f7-46e2-986a-74f990296da4',
         '420994cc-5e99-42eb-84b6-2392486a33b6',
+        '0a9af826-aaf4-45da-9d46-e1b5dc486264'
     ]
 
     os.system('cp -r ../data/raw/thai-handwriting-number.appspot.com/* ../data/clean/')
