@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+    <title>Thai-Handwriting-Number: สร้าง Dataset ลายมือตัวเลขไทย</title>
+
+    <meta name="description" content="จุดประสงค์เพื่อต้องการสร้าง Dataset สำหรับลายมือตัวเลขไทย เพื่อนำไปใช้ในการศึกษา" >
+
+    <meta property="og:title" content="Thai-Handwriting-Number: สร้าง Dataset ลายมือตัวเลขไทย"/>
+    <meta property="og:description" content="จุดประสงค์เพื่อต้องการสร้าง Dataset สำหรับลายมือตัวเลขไทย เพื่อนำไปใช้ในการศึกษา" >
+    <meta property="og:image" content="https://kittinan.github.io/thai-handwriting-number/img/thai-handwriting-number.png"/>
+    <meta property="og:url" content="https://kittinan.github.io/thai-handwriting-number/"/>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.6/drawingboard.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <script src="js/numjs.min.js"></script>
+    <style>
+      #layer_result canvas {
+        border: 1px solid grey;
+        margin: 5px;
+      }
+      #layer_result > div {
+        overflow-x: auto;
+      }
+    </style>
+
+
+  </head>
+  <body>
+
+    <a href="https://github.com/kittinan/thai-handwriting-number" target="_BLANK"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+    <nav class="light-blue lighten-1" role="navigation">
+      <div class="nav-wrapper container">
+
+        <ul class="left">
+          <li>
+            <a href="https://kittinan.github.io/thai-handwriting-number/">Thai-Handwriting-Number</a>
+          </li>
+          <li>
+            <a href="https://kittinan.github.io/thai-handwriting-number/predict.html">
+              ทำนาย
+            </a>
+          </li>
+        </ul>
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a href="https://github.com/kittinan/thai-handwriting-number">
+              <img src="https://github.com/kittinan/kittinan.github.io/raw/master/img/GitHub-Mark-32px.png" style="padding-top: 16px;" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <br /> <br />
+      <div class="row" style="text-align: center;">
+        ทำนายบน Web Browser โดย
+        <a href="https://js.tensorflow.org/" target="_BLANK">TensowFlow.js</a>
+      </div>
+      <div id="number_container" class="row ">
+
+        <div class="col s12 l6">
+          <div class="title">เขียนเลขไทย ๑ - ๙</div>
+          <div id="board_1" class="board"></div>
+          <br /><br />
+          <button id="btn_predict" class="btn" style="display: none;">Predict</button>
+        </div>
+
+        <div class="col s12 l6">
+          <div id="loading">Loading Model ...</div>
+          <div>ผลการทำนาย</div>
+          <h1 id="result_prediction"></h1>
+          <div id="result_info"></div>
+        </div>
+      </div>
+      <!--
+      <div class="row card">
+
+        <div class="card-content">
+          <h4>Layer</h4>
+          <div id="layer_result"></div>
+        </div>
+      </div>
+      -->
+    </div>
+
+
+    <canvas id="grayscale" width="50" height="50"></canvas>
+
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawingboard.js/0.4.6/drawingboard.min.js"></script>
+    <!--
+    Module ndarray-unpack,lodash.flatten
+
+    main.js:
+    window.ndarray_unpack = require("ndarray-unpack");
+    window.flatten = require('lodash.flatten');
+
+    run:
+    browserify main.js -o util.js
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.6.1"></script>
+    <script src="./js/util.js"></script>
+
+    <script>
+
+      var BOARD;
+      var model;
+      $(document).ready(function () {
+        $('#btn_predict').click(onBtnPredictClicked);
+
+
+        BOARD = new DrawingBoard.Board('board_1', {
+          size: 16,
+          controls: [
+            {Navigation: {reset: true, back: true, forward: false}},
+            {DrawingMode: {filler: false, eraser: false, pencil: false}},
+          ],
+          webStorage: false
+        });
+
+        init = async () => {
+          model = await tf.loadModel("./model_tfjs/model.json");
+          console.log("Model Loaded")
+          $('#loading').hide();
+          $('#btn_predict').show();
+          result = model.predict(tf.zeros([1, 28, 28, 1])).print();;
+        };
+
+        init();
+      });
+
+      function onBtnPredictClicked() {
+        //var img = BOARD.getImg();
+
+        var img = nj.images.read(document.querySelector('.drawing-board-canvas'));
+        var gray = nj.images.rgb2gray(img);
+        var resized = nj.images.resize(gray, 28, 28)
+        var data = resized.subtract(1).divide(255).flatten().selection.data;
+        data = new Float32Array(data);
+
+        var x = ﻿tf.tensor2d(data, [1, 28, 28, 1]);
+
+        result = model.predict(x);
+        output = result.dataSync()
+        $('#result_prediction').html(findMax(output));
+
+        var html = '<table class="table striped"><thead><tr><th>Number</th><th>Probability (%)</th></tr><tbody>';
+        for (var i = 0; i < output.length; i++) {
+          var percent = (output[i] * 100).toFixed(2);
+          html += '<tr>';
+          html += '<td>' + i + '</td>';
+          html += '<td>' + percent + '</td>';
+          html += '</tr>';
+        }
+        html += '</tbody></table>';
+        $('#result_info').html(html);
+      }
+
+      function findMax(classes) {
+
+        var idx = 0;
+        var max = classes[0];
+        for (var i = 1; i < classes.length; i++) {
+          if (classes[i] > max) {
+            max = classes[i];
+            idx = i;
+          }
+        }
+        return idx;
+      }
+    </script>
+
+  </body>
+</html>
